@@ -127,6 +127,23 @@ def powerset(s):
         )
     ]
 
+def check_how_many_copies_of_genes(person, one_gene, two_genes):
+    """util to check if person has any of the problematioc genes
+
+    Args:
+        person (_type_): _description_
+        one_gene (_type_): _description_
+        two_genes (_type_): _description_
+
+    Returns:
+        int: 0, 1 or 2
+    """
+    if person in one_gene:
+        return 1
+    if person in two_genes:
+        return 2
+    else:
+        return 0
 
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
@@ -139,7 +156,11 @@ def joint_probability(people, one_gene, two_genes, have_trait):
         * everyone in set `have_trait` has the trait, and
         * everyone not in set` have_trait` does not have the trait.
     """
-    raise NotImplementedError
+    probability = 1
+
+    for person in people:
+        print(person)
+    return probability
 
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
