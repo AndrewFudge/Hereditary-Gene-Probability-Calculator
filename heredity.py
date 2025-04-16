@@ -186,7 +186,37 @@ def probs_if_known_parent(person, people, one_gene, two_genes, have_trait):
     # prob don't pass genes and do mutate
     prob_father_no_pass_do_mutate = prob_father_pass_gene * PROBS["mutation"]
     prob_mother_no_pass_do_mutate = prob_mother_pass_gene * PROBS["mutation"]
-
+    # child genes
+    genes_child = check_how_many_copies_of_genes(person, one_gene, two_genes)
+    if genes_child == 0:
+        # a - father pass and mutate, mother not pass
+        # b - no one pass
+        # c - father not pass and mother pass and mutate
+        # d - both pass and both mutate
+        a = prob_father_pass_do_mutate * prob_mother_no_pass_no_mutate
+        b = prob_father_no_pass_no_mutate * prob_mother_no_pass_no_mutate
+        c = prob_father_no_pass_no_mutate * prob_mother_pass_do_mutate
+        d = prob_father_pass_do_mutate * prob_mother_pass_do_mutate
+        probability = a + b + c + d
+    elif genes_child == 1:
+        # a - father pass, no mutate, mother dont, no mutate
+        # b - father pass, no mutate, mother pass, mutate
+        # c - father pass, mutate, mother dont pass, mutate
+        # d - father pass, mutate, mother pass, no mutate
+        # e - father no pass, no mutate, mother no pass, mutate
+        # f - father no pass, no mutate, mother pass, no mutate
+        # g - father no pass, mutate, mother no pass, no mutate
+        # h - father no pass, mutate, mother pass, mutate
+        a = prob_father_pass_no_mutate * prob_mother_no_pass_no_mutate
+        b = prob_father_pass_no_mutate * prob_mother_pass_do_mutate
+        c = prob_father_pass_do_mutate * prob_mother_no_pass_do_mutate
+        d = prob_father_pass_do_mutate * prob_mother_pass_no_mutate
+        e = prob_father_no_pass_no_mutate * prob_mother_no_pass_no_mutate
+        f = prob_father_no_pass_no_mutate * prob_mother_pass_no_mutate
+        g = prob_father_no_pass_do_mutate * prob_mother_no_pass_no_mutate
+        h = prob_father_no_pass_do_mutate * prob_mother_pass_do_mutate
+        probability = a + b + c + d + e + f + g + h
+    elif genes_child == 2:
 
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
