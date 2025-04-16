@@ -217,6 +217,16 @@ def probs_if_known_parent(person, people, one_gene, two_genes, have_trait):
         h = prob_father_no_pass_do_mutate * prob_mother_pass_do_mutate
         probability = a + b + c + d + e + f + g + h
     elif genes_child == 2:
+        # a - father pass, no mutate, mother pass, no mutate
+        # b - father pass, no mutate, mother no pass, mutate
+        # c - father no pass, mutate, mother pass, no mutate
+        # d - father no pass, mutate, mother no pass, mutate
+        a = prob_father_pass_no_mutate * prob_mother_pass_no_mutate
+        b = prob_father_pass_no_mutate * prob_mother_no_pass_do_mutate
+        c = prob_father_no_pass_do_mutate * prob_mother_pass_no_mutate
+        d = prob_father_no_pass_do_mutate * prob_mother_no_pass_do_mutate
+        probability = a + b + c + d
+    return probability
 
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
@@ -243,6 +253,7 @@ def joint_probability(people, one_gene, two_genes, have_trait):
             probability *= probs_if_no_parent(gene_copies, has_trait)
         # otherwise
         else:
+            probability *= (probs_if_known_parent(person, people, one_gene, two_genes, have_trait) * PROBS['trait'][gene_copies][has_trait])
 
     return probability
 
