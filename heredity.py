@@ -127,6 +127,7 @@ def powerset(s):
         )
     ]
 
+
 def check_how_many_copies_of_genes(person, one_gene, two_genes):
     """util to check if person has any of the problematioc genes
 
@@ -145,6 +146,7 @@ def check_how_many_copies_of_genes(person, one_gene, two_genes):
     else:
         return 0
 
+
 def probs_if_no_parent(copies_gene, has_trait):
     """returns the maths for working out if person has the trait with
     not parent
@@ -160,6 +162,32 @@ def probs_if_no_parent(copies_gene, has_trait):
     probs_trait = PROBS['trait'][copies_gene][has_trait]
     return prob_genes * probs_trait
 
+
+def probs_if_known_parent(person, people, one_gene, two_genes, have_trait):
+    mother = people[person]["mother"]
+    genes_mother = check_how_many_copies_of_genes(mother, one_gene, two_genes)
+    father = people[person]["father"]
+    genes_father = check_how_many_copies_of_genes(father, one_gene, two_genes)
+    # with genes each parent can only send 1 copy,
+    # two copies, 1 gene
+    # one copy, 0 or 1 gene
+    # no copies, 0 genes
+    prob_mother_pass_gene = genes_mother / 2
+    prob_father_pass_gene = genes_father / 2
+    # probs pass genes and don't mutate
+    prob_mother_pass_no_mutate = prob_mother_pass_gene * (1 - PROBS["mutation"])
+    prob_father_pass_no_mutate = prob_father_pass_gene * (1 - PROBS["mutation"])
+    # prob pass genes and do mutate
+    prob_father_pass_do_mutate = prob_father_pass_gene * PROBS["mutation"]
+    prob_mother_pass_do_mutate = prob_mother_pass_gene * PROBS["mutation"]
+    # prob dont pass gene and don't mutate
+    prob_father_no_pass_no_mutate = prob_father_pass_gene * (1 - PROBS["mutation"])
+    prob_mother_no_pass_no_mutate = prob_mother_pass_gene * (1 - PROBS["mutation"])
+    # prob don't pass genes and do mutate
+    prob_father_no_pass_do_mutate = prob_father_pass_gene * PROBS["mutation"]
+    prob_mother_no_pass_do_mutate = prob_mother_pass_gene * PROBS["mutation"]
+
+
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
     Compute and return a joint probability.
@@ -171,6 +199,7 @@ def joint_probability(people, one_gene, two_genes, have_trait):
         * everyone in set `have_trait` has the trait, and
         * everyone not in set` have_trait` does not have the trait.
     """
+    # start at 1 probability and multiply to get lower values
     probability = 1
 
     for person in people:
@@ -182,6 +211,9 @@ def joint_probability(people, one_gene, two_genes, have_trait):
         # check if no parent and work out the probability
         if people[person]["mother"] == None:
             probability *= probs_if_no_parent(gene_copies, has_trait)
+        # otherwise
+        else:
+
     return probability
 
 
