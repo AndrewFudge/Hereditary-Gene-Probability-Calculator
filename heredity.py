@@ -278,15 +278,16 @@ def joint_probability(people, one_gene, two_genes, have_trait):
     return joint_prob
 
 def inherit_prob(parent_name, one_gene, two_genes):
-    """
-    joint_probability helper function
+    """helper func for joint probability
+    takes parent name and the list of one gene and two dene people
 
-    Returns the probability of a parent giving a copy of the mutated gene to their child.
+    Args:
+        parent_name (str): parent name
+        one_gene (set): one gene set
+        two_genes (set): two gene set
 
-    Takes:
-    - parent_name - the name of the parent
-    - one_gene - set of people having 1 copy of the gene
-    - two_genes - set of people having two copies of the gene.
+    Returns:
+        float: probability
     """
 
     if parent_name in two_genes:
