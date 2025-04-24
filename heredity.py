@@ -228,6 +228,28 @@ def probs_if_known_parent(person, people, one_gene, two_genes, copies_gene):
         probability = a + b + c + d
     return probability
 
+def inherit_prob(parent_name, one_gene, two_genes):
+    """helper func for joint probability
+    takes parent name and the list of one gene and two gene people
+    checks if parent has one or two genes and returns the probability
+    of passing the trait
+    Args:
+        parent_name (str): parent name
+        one_gene (set): one gene set
+        two_genes (set): two gene set
+
+    Returns:
+        float: probability
+    """
+
+    if parent_name in two_genes:
+        return 1 - PROBS['mutation']
+    elif parent_name in one_gene:
+        return 0.5
+    else:
+        return PROBS['mutation']
+
+
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
     Compute and return a joint probability.
@@ -277,25 +299,7 @@ def joint_probability(people, one_gene, two_genes, have_trait):
     # Return the calculated joint probability of this 'possible world'
     return joint_prob
 
-def inherit_prob(parent_name, one_gene, two_genes):
-    """helper func for joint probability
-    takes parent name and the list of one gene and two dene people
 
-    Args:
-        parent_name (str): parent name
-        one_gene (set): one gene set
-        two_genes (set): two gene set
-
-    Returns:
-        float: probability
-    """
-
-    if parent_name in two_genes:
-        return 1 - PROBS['mutation']
-    elif parent_name in one_gene:
-        return 0.5
-    else:
-        return PROBS['mutation']
 
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
