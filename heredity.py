@@ -228,6 +228,7 @@ def probs_if_known_parent(person, people, one_gene, two_genes, copies_gene):
         probability = a + b + c + d
     return probability
 
+
 def inherit_prob(parent_name, one_gene, two_genes):
     """helper func for joint probability
     takes parent name and the list of one gene and two gene people
@@ -285,11 +286,11 @@ def joint_probability(people, one_gene, two_genes, have_trait):
             father_prob = inherit_prob(father, one_gene, two_genes)
 
             if person_genes == 2:
-              person_prob *= mother_prob * father_prob
+                person_prob *= mother_prob * father_prob
             elif person_genes == 1:
-              person_prob *= (1 - mother_prob) * father_prob + (1 - father_prob) * mother_prob
+                person_prob *= (1 - mother_prob) * father_prob + (1 - father_prob) * mother_prob
             else:
-              person_prob *= (1 - mother_prob) * (1 - father_prob)
+                person_prob *= (1 - mother_prob) * (1 - father_prob)
 
         # Multiply by the probability of the person with X genes having / not having the trait:
         person_prob *= PROBS['trait'][person_genes][person_trait]
@@ -298,8 +299,6 @@ def joint_probability(people, one_gene, two_genes, have_trait):
 
     # Return the calculated joint probability of this 'possible world'
     return joint_prob
-
-
 
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
